@@ -2,15 +2,15 @@
 
 ## Phase 1: Project Scaffolding & Types
 
-- [ ] **Define all TypeScript types in `src/types.ts`** — Create the full type definitions file including: `EmbedFn`, `DriftMonitorOptions`, `SnapshotOptions`, `CheckOptions`, `MethodThresholds`, `MethodWeights`, `DriftSeverity`, `MethodResult`, `Snapshot`, `DriftReport`, `CanaryReport`, `DriftMonitor` interface, and `enabledMethods` shape. All types must match the spec exactly (Section 9). | Status: not_done
+- [x] **Define all TypeScript types in `src/types.ts`** — Create the full type definitions file including: `EmbedFn`, `DriftMonitorOptions`, `SnapshotOptions`, `CheckOptions`, `MethodThresholds`, `MethodWeights`, `DriftSeverity`, `MethodResult`, `Snapshot`, `DriftReport`, `CanaryReport`, `DriftMonitor` interface, and `enabledMethods` shape. All types must match the spec exactly (Section 9). | Status: done
 
-- [ ] **Implement `DriftError` class in `src/types.ts`** — Create a custom error class extending `Error` with a `code` property. Supported codes: `EMPTY_INPUT`, `INCONSISTENT_DIMENSIONS`, `INCOMPATIBLE_DIMENSIONS`, `NO_BASELINE`, `INVALID_SNAPSHOT`, `NO_CANARY_BASELINE`, `EMBED_FN_FAILED`. | Status: not_done
+- [x] **Implement `DriftError` class in `src/errors.ts`** — Create a custom error class extending `Error` with a `code` property. Supported codes: `EMPTY_INPUT`, `INCONSISTENT_DIMENSIONS`, `INCOMPATIBLE_DIMENSIONS`, `NO_BASELINE`, `INVALID_SNAPSHOT`, `NO_CANARY_BASELINE`, `EMBED_FN_FAILED`. | Status: done
 
-- [ ] **Update `package.json` with dev dependencies** — Add `typescript`, `vitest`, `eslint`, `@types/node` as dev dependencies. Ensure `engines.node` is `>=18`. | Status: not_done
+- [x] **Update `package.json` with dev dependencies** — Add `typescript`, `vitest`, `eslint`, `@types/node` as dev dependencies. Ensure `engines.node` is `>=18`. | Status: done
 
-- [ ] **Add CLI bin entry to `package.json`** — Add `"bin": { "embed-drift": "dist/cli.js" }` so the CLI is available after global install or via npx. | Status: not_done
+- [x] **Add CLI bin entry to `package.json`** — Add `"bin": { "embed-drift": "dist/cli.js" }` so the CLI is available after global install or via npx. | Status: done
 
-- [ ] **Set up public API exports in `src/index.ts`** — Export `createMonitor`, all public types (`Snapshot`, `DriftReport`, `CanaryReport`, `DriftMonitor`, `DriftMonitorOptions`, `SnapshotOptions`, `CheckOptions`, `EmbedFn`, `DriftSeverity`, `MethodResult`, `MethodThresholds`, `MethodWeights`), `DriftError`, and `DEFAULT_CANARY_TEXTS`. | Status: not_done
+- [x] **Set up public API exports in `src/index.ts`** — Export `createMonitor`, all public types (`Snapshot`, `DriftReport`, `CanaryReport`, `DriftMonitor`, `DriftMonitorOptions`, `SnapshotOptions`, `CheckOptions`, `EmbedFn`, `DriftSeverity`, `MethodResult`, `MethodThresholds`, `MethodWeights`), `DriftError`, and `DEFAULT_CANARY_TEXTS`. | Status: done
 
 ---
 
@@ -266,7 +266,7 @@
 
 ## Phase 15: Documentation
 
-- [ ] **Write README.md** — Include: package description, installation instructions, quick-start examples (model migration detection, snapshot-based monitoring, CI/CD gate), full API reference for all public methods, CLI usage with all commands and flags, configuration reference table, integration examples with embed-cache/embed-cluster/model-price-registry. | Status: not_done
+- [x] **Write README.md** — Include: package description, installation instructions, quick-start examples (model migration detection, snapshot-based monitoring, CI/CD gate), full API reference for all public methods, CLI usage with all commands and flags, configuration reference table, integration examples with embed-cache/embed-cluster/model-price-registry. | Status: done
 
 - [ ] **Add JSDoc comments to all public API functions and types** — Document every exported function, interface, and type with JSDoc comments matching the spec descriptions. Include parameter descriptions, return types, and example usage. | Status: not_done
 
