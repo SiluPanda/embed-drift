@@ -41,8 +41,7 @@ if (canaryReport.modelChanged) {
 
 ```ts
 import {
-  // Factory (not yet implemented)
-  // createMonitor,
+  createMonitor,
 
   // Error class
   DriftError,
@@ -68,6 +67,111 @@ import type {
   DriftErrorCode,
 } from 'embed-drift';
 ```
+
+## API Reference
+
+### `createMonitor(options: DriftMonitorOptions): DriftMonitor`
+
+Creates a drift monitor instance. All drift detection state and configuration is encapsulated in the returned object.
+
+**Options** (`DriftMonitorOptions`):
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `modelId` | `string` | — | **Required.** The embedding model identifier. |
+| `canaryTexts` | `string[]` | `[]` | Additional canary texts to append to (or replace) the built-in corpus. |
+| `replaceDefaultCanaries` | `boolean` | `false` | If `true`, use only `canaryTexts` instead of built-in corpus + custom. |
+| `canaryThreshold` | `number` | `0.95` | Mean cosine similarity below which `modelChanged` is declared. |
+| `alertSeverity` | `DriftSeverity` | `'high'` | Minimum severity to fire the `onDrift` callback. |
+| `thresholds` | `Partial<MethodThresholds>` | `{}` | Per-method score overrides that trigger an alert. |
+| `onDrift` | `(report) => void \| Promise<void>` | — | Callback invoked when an alert fires. Async errors are swallowed. |
+| `methodWeights` | `Partial<MethodWeights>` | see below | Weights for the composite drift score. |
+| `enabledMethods` | `{centroid?,pairwise?,dimensionWise?,mmd?}` | all `true` | Disable specific drift methods. |
+| `mmdRandomFeatures` | `number` | `100` | Number of random Fourier features for MMD approximation. |
+| `pairwiseSamplePairs` | `number` | `500` | Number of random pairs sampled for pairwise similarity estimation. |
+
+Default composite weights: `{ canary: 0.35, centroid: 0.15, pairwise: 0.20, dimensionWise: 0.15, mmd: 0.15 }`.
+
+---
+
+### `monitor.snapshot(embeddings, options?): Snapshot`
+
+Computes a statistical snapshot of the provided embedding vectors.
+
+- `embeddings`: `number[][]` — at least 2 vectors of consistent dimensionality.
+- `options.sampleSize`: number of vectors to store for KS/MMD (default: 50).
+- `options.metadata`: caller-provided key-value metadata attached to the snapshot.
+
+Throws `DriftError('EMPTY_INPUT')` if fewer than 2 vectors are given, `DriftError('INCONSISTENT_DIMENSIONS')` if vectors have different lengths.
+
+---
+
+### `monitor.compare(snapshotA, snapshotB): DriftReport`
+
+Compares two snapshots and returns a `DriftReport` with per-method drift scores, a composite score, and severity classification.
+
+Throws `DriftError('INCOMPATIBLE_DIMENSIONS')` if the two snapshots have different dimensionalities.
+
+When `snapshotA.modelId !== snapshotB.modelId`, `report.modelChanged` is `true` and severity is `critical`.
+
+---
+
+### `monitor.setBaseline(snapshot): void`
+
+Stores a snapshot as the baseline for subsequent `check()` calls.
+
+---
+
+### `monitor.getBaseline(): Snapshot | undefined`
+
+Returns the currently stored baseline snapshot, or `undefined` if none is set.
+
+---
+
+### `monitor.check(embeddings, options?): DriftReport`
+
+Creates a new snapshot from `embeddings` and compares it against the stored baseline. Throws `DriftError('NO_BASELINE')` if no baseline has been set.
+
+---
+
+### `monitor.checkCanaries(embedFn): Promise<CanaryReport>`
+
+Embeds the configured canary texts using `embedFn` and compares against stored reference embeddings.
+
+- On the **first call**, establishes the reference baseline: returns a `CanaryReport` with `isInitialBaseline: true` and `driftScore: 0`.
+- On **subsequent calls**, computes per-canary cosine similarities and returns `modelChanged: true` when mean similarity falls below `canaryThreshold`.
+
+Throws `DriftError('EMBED_FN_FAILED')` if `embedFn` throws.
+
+---
+
+### `monitor.setCanaryBaseline(canaryEmbeddings): void`
+
+Explicitly sets the canary reference embeddings without calling `checkCanaries`. Useful for loading a persisted canary baseline.
+
+---
+
+### `monitor.getCanaryTexts(): string[]`
+
+Returns the resolved canary text array (built-in + custom, or custom-only if `replaceDefaultCanaries: true`).
+
+---
+
+### `monitor.alert(report): boolean`
+
+Evaluates a `DriftReport` or `CanaryReport` against configured thresholds and returns `true` if an alert should fire. Does **not** invoke `onDrift`.
+
+---
+
+### `monitor.saveSnapshot(snapshot, filePath): void`
+
+Writes a snapshot as pretty-printed JSON to the given file path.
+
+---
+
+### `monitor.loadSnapshot(filePath): Snapshot`
+
+Reads and validates a snapshot from a JSON file. Throws `DriftError('INVALID_SNAPSHOT')` if the file is missing, malformed, or fails schema validation.
 
 ## Drift Detection Methods
 

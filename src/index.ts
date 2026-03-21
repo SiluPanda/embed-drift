@@ -15,4 +15,4 @@ export type {
   DriftMonitor,
 } from './types';
 export { DEFAULT_CANARY_TEXTS } from './constants';
-// createMonitor will be implemented in a later phase
+export { createMonitor } from './monitor';
