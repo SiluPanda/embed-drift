@@ -16,19 +16,19 @@
 
 ## Phase 2: Core Math Utilities (`src/math.ts`)
 
-- [ ] **Implement `dotProduct(a, b)` function** — Compute the dot product of two number arrays of equal length. Use a simple loop for clarity and correctness. | Status: not_done
+- [x] **Implement `dotProduct(a, b)` function** — Compute the dot product of two number arrays of equal length. Use a simple loop for clarity and correctness. | Status: done
 
-- [ ] **Implement `l2Norm(v)` function** — Compute the L2 (Euclidean) norm of a vector: `sqrt(sum(v[i]^2))`. | Status: not_done
+- [x] **Implement `l2Norm(v)` function** — Compute the L2 (Euclidean) norm of a vector: `sqrt(sum(v[i]^2))`. | Status: done
 
-- [ ] **Implement `cosineSimilarity(a, b)` function** — Compute `dot(a, b) / (norm(a) * norm(b))`. Handle the zero-norm edge case (return 0 if either vector is all zeros). | Status: not_done
+- [x] **Implement `cosineSimilarity(a, b)` function** — Compute `dot(a, b) / (norm(a) * norm(b))`. Handle the zero-norm edge case (return 0 if either vector is all zeros). | Status: done
 
-- [ ] **Implement `cosineDistance(a, b)` function** — Compute `1 - cosineSimilarity(a, b)`. Clamp result to [0, 2] range. | Status: not_done
+- [x] **Implement `cosineDistance(a, b)` function** — Compute `1 - cosineSimilarity(a, b)`. Clamp result to [0, 2] range. | Status: done
 
-- [ ] **Implement `elementWiseMean(vectors)` function** — Compute the centroid of a set of vectors by averaging each dimension across all vectors. Returns a number array of the same dimensionality. | Status: not_done
+- [x] **Implement `elementWiseMean(vectors)` function** — Compute the centroid of a set of vectors by averaging each dimension across all vectors. Returns a number array of the same dimensionality. | Status: done
 
-- [ ] **Implement `elementWiseVariance(vectors, mean)` function** — Compute the per-dimension variance given a set of vectors and their precomputed mean. Uses the population variance formula. | Status: not_done
+- [x] **Implement `elementWiseVariance(vectors, mean)` function** — Compute the per-dimension variance given a set of vectors and their precomputed mean. Uses the population variance formula. | Status: done
 
-- [ ] **Implement `reservoirSample(items, k)` function** — Implement reservoir sampling (Algorithm R) to select k items uniformly at random from an array of unknown or large size, in a single pass. | Status: not_done
+- [x] **Implement `reservoirSample(items, k)` function** — Implement reservoir sampling (Algorithm R) to select k items uniformly at random from an array of unknown or large size, in a single pass. | Status: done
 
 - [ ] **Write unit tests for math utilities (`src/__tests__/math.test.ts`)** — Test dotProduct, l2Norm, cosineSimilarity, cosineDistance, elementWiseMean, elementWiseVariance, and reservoirSample with small hand-computed inputs. Verify edge cases: zero vectors, single-element vectors, identical vectors, orthogonal vectors, opposite vectors. | Status: not_done
 
@@ -36,21 +36,21 @@
 
 ## Phase 3: Snapshot Creation (`src/snapshot.ts`)
 
-- [ ] **Implement `createSnapshot()` core function** — Accept an array of embedding vectors (`number[][]`), a `modelId`, and `SnapshotOptions`. Validate inputs (at least 2 vectors, consistent dimensionality). Compute centroid, variance, pairwise similarity stats, similarity histogram, and sample vectors. Return a `Snapshot` object with UUID, timestamp, and all computed fields. | Status: not_done
+- [x] **Implement `createSnapshot()` core function** — Accept an array of embedding vectors (`number[][]`), a `modelId`, and `SnapshotOptions`. Validate inputs (at least 2 vectors, consistent dimensionality). Compute centroid, variance, pairwise similarity stats, similarity histogram, and sample vectors. Return a `Snapshot` object with UUID, timestamp, and all computed fields. | Status: done
 
-- [ ] **Implement input validation in snapshot creation** — Throw `DriftError('EMPTY_INPUT')` if embeddings array is empty or has fewer than 2 vectors. Throw `DriftError('INCONSISTENT_DIMENSIONS')` if vectors have different lengths. | Status: not_done
+- [x] **Implement input validation in snapshot creation** — Throw `DriftError('EMPTY_INPUT')` if embeddings array is empty or has fewer than 2 vectors. Throw `DriftError('INCONSISTENT_DIMENSIONS')` if vectors have different lengths. | Status: done
 
-- [ ] **Implement pairwise cosine similarity estimation** — Sample `M = min(500, n*(n-1)/2)` random pairs from input vectors. Compute cosine similarity for each pair. Record mean, standard deviation, and a 20-bin histogram from -1.0 to 1.0 (each bin stores the fraction of pairs in that range). | Status: not_done
+- [x] **Implement pairwise cosine similarity estimation** — Sample `M = min(500, n*(n-1)/2)` random pairs from input vectors. Compute cosine similarity for each pair. Record mean, standard deviation, and a 20-bin histogram from -1.0 to 1.0 (each bin stores the fraction of pairs in that range). | Status: done
 
-- [ ] **Implement reservoir sampling for `sampleVectors`** — Store `min(sampleSize, n)` randomly selected vectors from the input. Default `sampleSize` is 50. Use reservoir sampling for uniform random selection. | Status: not_done
+- [x] **Implement reservoir sampling for `sampleVectors`** — Store `min(sampleSize, n)` randomly selected vectors from the input. Default `sampleSize` is 50. Use reservoir sampling for uniform random selection. | Status: done
 
-- [ ] **Implement similarity histogram construction** — Create 20 bins spanning [-1.0, 1.0]. Each bin covers a range of 0.1. Store the fraction of sampled pairwise similarities that fall in each bin. | Status: not_done
+- [x] **Implement similarity histogram construction** — Create 20 bins spanning [-1.0, 1.0]. Each bin covers a range of 0.1. Store the fraction of sampled pairwise similarities that fall in each bin. | Status: done
 
-- [ ] **Implement UUID v4 generation using `node:crypto`** — Use `crypto.randomUUID()` to generate unique IDs for snapshots and reports. | Status: not_done
+- [x] **Implement UUID v4 generation using `node:crypto`** — Use `crypto.randomUUID()` to generate unique IDs for snapshots and reports. | Status: done
 
 - [ ] **Support `includeCanaries` option in snapshot** — When `includeCanaries: true` and an `embedFn` is provided, embed the configured canary texts and store the resulting vectors in `snapshot.canaryEmbeddings`. Throw `DriftError` if `includeCanaries` is true but no `embedFn` is available. Note: `snapshot()` becomes async when `includeCanaries` is true. | Status: not_done
 
-- [ ] **Support `metadata` option in snapshot** — Attach caller-provided key-value metadata to the snapshot object. Default to empty object. | Status: not_done
+- [x] **Support `metadata` option in snapshot** — Attach caller-provided key-value metadata to the snapshot object. Default to empty object. | Status: done
 
 - [ ] **Write unit tests for snapshot creation (`src/__tests__/snapshot.test.ts`)** — Test: correct modelId, dimensionality, centroid (verify element-wise mean for 3-vector 2-dimension input), correct variance, sampleVectors length = min(sampleSize, n), pairwise similarity stats are within expected bounds, histogram sums to ~1.0. Test error cases: empty array, single vector, inconsistent dimensions. | Status: not_done
 
@@ -60,53 +60,53 @@
 
 ### Method 1: Canary-Based Detection (`src/methods/canary.ts`)
 
-- [ ] **Implement canary comparison function** — Given two arrays of canary embeddings (new and reference), compute per-canary cosine similarity, mean similarity, minimum similarity, and drift score (`1 - meanSimilarity`). Determine `modelChanged` based on whether mean similarity is below the configured `canaryThreshold` (default 0.95). | Status: not_done
+- [x] **Implement canary comparison function** — Given two arrays of canary embeddings (new and reference), compute per-canary cosine similarity, mean similarity, minimum similarity, and drift score (`1 - meanSimilarity`). Determine `modelChanged` based on whether mean similarity is below the configured `canaryThreshold` (default 0.95). | Status: done
 
-- [ ] **Return a `MethodResult` from canary comparison** — Include `score` (drift score), `computed: true`, `interpretation` (human-readable string), and `details` containing `meanSimilarity`, `minSimilarity`, and `perCanarySimilarities`. | Status: not_done
+- [x] **Return a `MethodResult` from canary comparison** — Include `score` (drift score), `computed: true`, `interpretation` (human-readable string), and `details` containing `meanSimilarity`, `minSimilarity`, and `perCanarySimilarities`. | Status: done
 
 - [ ] **Write unit tests for canary comparison (`src/__tests__/methods/canary.test.ts`)** — Test: identical embeddings produce drift score 0; orthogonal embeddings produce high drift score; mean similarity below threshold sets modelChanged to true; per-canary similarities are correctly computed. | Status: not_done
 
 ### Method 2: Centroid Drift (`src/methods/centroid.ts`)
 
-- [ ] **Implement centroid drift computation** — Compute cosine distance between two snapshot centroids. Return normalized score in [0, 1] (clamp cosine distance which can be up to 2.0 for opposite vectors). | Status: not_done
+- [x] **Implement centroid drift computation** — Compute cosine distance between two snapshot centroids. Return normalized score in [0, 1] (clamp cosine distance which can be up to 2.0 for opposite vectors). | Status: done
 
-- [ ] **Return a `MethodResult` from centroid drift** — Include score, computed flag, interpretation, and details (raw cosine distance, cosine similarity). | Status: not_done
+- [x] **Return a `MethodResult` from centroid drift** — Include score, computed flag, interpretation, and details (raw cosine distance, cosine similarity). | Status: done
 
 - [ ] **Write unit tests for centroid drift (`src/__tests__/methods/centroid.test.ts`)** — Test: identical centroids produce score 0; centroid [1,0] vs [0,1] (orthogonal) produces score 1.0; centroid [1,0] vs [-1,0] (opposite) produces score clamped to 1.0. | Status: not_done
 
 ### Method 3: Pairwise Cosine Similarity Distribution Shift (`src/methods/pairwise.ts`)
 
-- [ ] **Implement pairwise similarity shift computation** — Compare `meanPairwiseSimilarity` and `stdPairwiseSimilarity` between two snapshots. Compute `mean_diff = |mean_A - mean_B|` and `std_diff = |std_A - std_B|`. Normalize using the formula: `score = normalize(mean_diff + 0.5 * std_diff)` where a mean shift of 0.1 maps to approximately 0.3 and a shift of 0.2 saturates at 1.0. Clamp to [0, 1]. | Status: not_done
+- [x] **Implement pairwise similarity shift computation** — Compare `meanPairwiseSimilarity` and `stdPairwiseSimilarity` between two snapshots. Compute `mean_diff = |mean_A - mean_B|` and `std_diff = |std_A - std_B|`. Normalize using the formula: `score = normalize(mean_diff + 0.5 * std_diff)` where a mean shift of 0.1 maps to approximately 0.3 and a shift of 0.2 saturates at 1.0. Clamp to [0, 1]. | Status: done
 
-- [ ] **Return a `MethodResult` from pairwise shift** — Include score, computed flag, interpretation, and details (mean_diff, std_diff, raw values from both snapshots). | Status: not_done
+- [x] **Return a `MethodResult` from pairwise shift** — Include score, computed flag, interpretation, and details (mean_diff, std_diff, raw values from both snapshots). | Status: done
 
 - [ ] **Write unit tests for pairwise similarity shift (`src/__tests__/methods/pairwise.test.ts`)** — Test: identical pairwise stats produce score ~0; large mean difference produces high score; verify normalization formula with known inputs. | Status: not_done
 
 ### Method 4: Dimension-Wise Statistics (`src/methods/dimension-wise.ts`)
 
-- [ ] **Implement per-dimension Cohen's d computation** — For each dimension i, compute `mean_diff[i] = (centroid_A[i] - centroid_B[i])^2`, pooled variance, and `dim_score[i] = mean_diff[i] / var_pooled[i]`. Average across dimensions and normalize: `score = min(mean_cohens_d / 2.0, 1.0)`. | Status: not_done
+- [x] **Implement per-dimension Cohen's d computation** — For each dimension i, compute `mean_diff[i] = (centroid_A[i] - centroid_B[i])^2`, pooled variance, and `dim_score[i] = mean_diff[i] / var_pooled[i]`. Average across dimensions and normalize: `score = min(mean_cohens_d / 2.0, 1.0)`. | Status: done
 
-- [ ] **Implement per-dimension KS-like statistic** — For each dimension, extract that dimension's values from sampleVectors of both snapshots. Sort both arrays. Compute the maximum absolute difference between empirical CDFs. Average the per-dimension KS statistics across all dimensions. | Status: not_done
+- [x] **Implement per-dimension KS-like statistic** — For each dimension, extract that dimension's values from sampleVectors of both snapshots. Sort both arrays. Compute the maximum absolute difference between empirical CDFs. Average the per-dimension KS statistics across all dimensions. | Status: done
 
-- [ ] **Combine Cohen's d and KS into a single dimension-wise score** — Blend the mean Cohen's d score and the mean KS score into a single normalized dimension-wise drift score in [0, 1]. | Status: not_done
+- [x] **Combine Cohen's d and KS into a single dimension-wise score** — Blend the mean Cohen's d score and the mean KS score into a single normalized dimension-wise drift score in [0, 1]. | Status: done
 
-- [ ] **Return a `MethodResult` from dimension-wise analysis** — Include combined score, computed flag, interpretation, and details (mean Cohen's d, mean KS statistic, number of dimensions analyzed, top-drifted dimensions). | Status: not_done
+- [x] **Return a `MethodResult` from dimension-wise analysis** — Include combined score, computed flag, interpretation, and details (mean Cohen's d, mean KS statistic, number of dimensions analyzed, top-drifted dimensions). | Status: done
 
 - [ ] **Write unit tests for dimension-wise statistics (`src/__tests__/methods/dimension-wise.test.ts`)** — Test: identical sets produce score 0; one shifted dimension produces a score reflecting that shift; KS statistic for [0.0, 0.5, 1.0] vs [0.3, 0.6, 0.9] has max CDF difference ~0.33; verify Cohen's d computation against hand-calculated values. | Status: not_done
 
 ### Method 5: MMD Approximation (`src/methods/mmd.ts`)
 
-- [ ] **Implement median heuristic bandwidth estimation** — Compute pairwise L2 distances between a combined sample of vectors from both snapshots. Set bandwidth sigma to the median pairwise distance. Cache the computation per comparison. | Status: not_done
+- [x] **Implement median heuristic bandwidth estimation** — Compute pairwise L2 distances between a combined sample of vectors from both snapshots. Set bandwidth sigma to the median pairwise distance. Cache the computation per comparison. | Status: done
 
-- [ ] **Implement random Fourier feature map** — Draw R random frequency vectors from `N(0, (1/sigma^2) * I)` and R random bias terms from `Uniform(0, 2*pi)`. For each embedding x, compute `phi(x) = sqrt(2/R) * cos(omega^T * x + b)`. | Status: not_done
+- [x] **Implement random Fourier feature map** — Draw R random frequency vectors from `N(0, (1/sigma^2) * I)` and R random bias terms from `Uniform(0, 2*pi)`. For each embedding x, compute `phi(x) = sqrt(2/R) * cos(omega^T * x + b)`. | Status: done
 
-- [ ] **Implement MMD^2 estimation** — Compute mean feature vectors `mu_A` and `mu_B` for the two sample sets. Compute `MMD^2 = ||mu_A - mu_B||^2`. | Status: not_done
+- [x] **Implement MMD^2 estimation** — Compute mean feature vectors `mu_A` and `mu_B` for the two sample sets. Compute `MMD^2 = ||mu_A - mu_B||^2`. | Status: done
 
-- [ ] **Compute final MMD drift score** — Take `sqrt(MMD^2)`, divide by calibration constant, and clamp to [0, 1]. | Status: not_done
+- [x] **Compute final MMD drift score** — Take `sqrt(MMD^2)`, divide by calibration constant, and clamp to [0, 1]. | Status: done
 
-- [ ] **Support configurable `mmdRandomFeatures` parameter** — Default to 100 random features. Allow overriding via monitor options. | Status: not_done
+- [x] **Support configurable `mmdRandomFeatures` parameter** — Default to 100 random features. Allow overriding via monitor options. | Status: done
 
-- [ ] **Return a `MethodResult` from MMD** — Include score, computed flag, interpretation, and details (raw MMD^2, bandwidth sigma, number of random features used). | Status: not_done
+- [x] **Return a `MethodResult` from MMD** — Include score, computed flag, interpretation, and details (raw MMD^2, bandwidth sigma, number of random features used). | Status: done
 
 - [ ] **Write unit tests for MMD (`src/__tests__/methods/mmd.test.ts`)** — Test: identical vector sets produce MMD score < 0.02; clearly different distributions produce score > 0.2; verify bandwidth is approximately the median pairwise distance; verify that R=1000 vs R=100 produces scores within 0.05 of each other for same inputs (use fixed seed). | Status: not_done
 
@@ -114,11 +114,11 @@
 
 ## Phase 5: Composite Score & Severity (`src/composite.ts`)
 
-- [ ] **Implement weighted composite score computation** — Compute `composite = sum(weight[method] * score[method]) / sum(weight[method])` using the configured method weights. Default weights: canary=0.35, centroid=0.15, pairwise=0.20, dimensionWise=0.15, mmd=0.15. | Status: not_done
+- [x] **Implement weighted composite score computation** — Compute `composite = sum(weight[method] * score[method]) / sum(weight[method])` using the configured method weights. Default weights: canary=0.35, centroid=0.15, pairwise=0.20, dimensionWise=0.15, mmd=0.15. | Status: done
 
-- [ ] **Implement weight renormalization for disabled/unavailable methods** — If a method is disabled or its data is unavailable (e.g., no canary embeddings), exclude it from the weighted average and renormalize remaining weights to sum to 1. | Status: not_done
+- [x] **Implement weight renormalization for disabled/unavailable methods** — If a method is disabled or its data is unavailable (e.g., no canary embeddings), exclude it from the weighted average and renormalize remaining weights to sum to 1. | Status: done
 
-- [ ] **Implement severity classification function** — Map composite score to severity: 0.00-0.05 = `none`, 0.05-0.20 = `low`, 0.20-0.40 = `medium`, 0.40-0.70 = `high`, 0.70-1.00 = `critical`. Override to `critical` when `modelChanged` is true regardless of score. | Status: not_done
+- [x] **Implement severity classification function** — Map composite score to severity: 0.00-0.05 = `none`, 0.05-0.20 = `low`, 0.20-0.40 = `medium`, 0.40-0.70 = `high`, 0.70-1.00 = `critical`. Override to `critical` when `modelChanged` is true regardless of score. | Status: done
 
 - [ ] **Write unit tests for composite score (`src/__tests__/composite.test.ts`)** — Test: verify weighted average with default weights against manually computed value; verify weight renormalization when a method is disabled; verify severity bands: 0.03 = none, 0.10 = low, 0.30 = medium, 0.50 = high, 0.80 = critical; verify modelChanged always produces critical. | Status: not_done
 
@@ -126,11 +126,11 @@
 
 ## Phase 6: Alert System (`src/alert.ts`)
 
-- [ ] **Implement alert threshold evaluation** — Return `true` if: `severity >= alertSeverity` OR any per-method score exceeds its configured threshold in `thresholds`. | Status: not_done
+- [x] **Implement alert threshold evaluation** — Return `true` if: `severity >= alertSeverity` OR any per-method score exceeds its configured threshold in `thresholds`. | Status: done
 
-- [ ] **Implement `onDrift` callback dispatch** — When an alert fires, invoke the `onDrift` callback with the full `DriftReport` or `CanaryReport`. Support both sync and async callbacks. Fire-and-forget for async (do not await). Swallow errors thrown by the callback. | Status: not_done
+- [x] **Implement `onDrift` callback dispatch** — When an alert fires, invoke the `onDrift` callback with the full `DriftReport` or `CanaryReport`. Support both sync and async callbacks. Fire-and-forget for async (do not await). Swallow errors thrown by the callback. | Status: done
 
-- [ ] **Implement the `monitor.alert(report)` public method** — Accept a `DriftReport` or `CanaryReport`, evaluate against configured thresholds and severity, and return a boolean. This method does NOT invoke the callback; it only evaluates the threshold. | Status: not_done
+- [x] **Implement the `monitor.alert(report)` public method** — Accept a `DriftReport` or `CanaryReport`, evaluate against configured thresholds and severity, and return a boolean. This method does NOT invoke the callback; it only evaluates the threshold. | Status: done
 
 - [ ] **Write unit tests for alert system (`src/__tests__/alert.test.ts`)** — Test: returns false when severity < alertSeverity; returns true when severity >= alertSeverity; returns true when a per-method score exceeds its threshold even if severity is below alertSeverity; onDrift callback is called when alert fires; onDrift callback is NOT called when alert does not fire; async onDrift errors are swallowed. | Status: not_done
 
@@ -138,51 +138,51 @@
 
 ## Phase 7: Canary Corpus (`src/canary-corpus.ts`)
 
-- [ ] **Define the 25 built-in default canary texts** — Create a frozen constant array (`DEFAULT_CANARY_TEXTS`) containing the 25 diverse English texts specified in the spec (Section 7): 3 technical, 3 scientific, 3 legal, 3 casual, 3 news, 3 medical, 2 creative, 2 mathematical, 2 instructional, 1 philosophical. | Status: not_done
+- [x] **Define the 25 built-in default canary texts** — Create a frozen constant array (`DEFAULT_CANARY_TEXTS`) containing the 25 diverse English texts specified in the spec (Section 7): 3 technical, 3 scientific, 3 legal, 3 casual, 3 news, 3 medical, 2 creative, 2 mathematical, 2 instructional, 1 philosophical. | Status: done
 
-- [ ] **Export the canary corpus** — Export `DEFAULT_CANARY_TEXTS` for use by the monitor and for direct consumer access. Freeze the array with `Object.freeze` to prevent mutation. | Status: not_done
+- [x] **Export the canary corpus** — Export `DEFAULT_CANARY_TEXTS` for use by the monitor and for direct consumer access. Freeze the array with `Object.freeze` to prevent mutation. | Status: done
 
 ---
 
 ## Phase 8: DriftMonitor Implementation (`src/monitor.ts`)
 
-- [ ] **Implement `createMonitor(options)` factory function** — Validate required `modelId` option. Apply defaults for all optional fields: `canaryTexts=[]`, `replaceDefaultCanaries=false`, `canaryThreshold=0.95`, `alertSeverity='high'`, `thresholds={}`, `methodWeights` defaults, `enabledMethods` all true, `mmdRandomFeatures=100`, `pairwiseSamplePairs=500`. Return a `DriftMonitor` object. | Status: not_done
+- [x] **Implement `createMonitor(options)` factory function** — Validate required `modelId` option. Apply defaults for all optional fields: `canaryTexts=[]`, `replaceDefaultCanaries=false`, `canaryThreshold=0.95`, `alertSeverity='high'`, `thresholds={}`, `methodWeights` defaults, `enabledMethods` all true, `mmdRandomFeatures=100`, `pairwiseSamplePairs=500`. Return a `DriftMonitor` object. | Status: done
 
-- [ ] **Implement canary text resolution** — If `replaceDefaultCanaries` is false, concatenate `DEFAULT_CANARY_TEXTS` with custom `canaryTexts`. If true, use only the custom texts. | Status: not_done
+- [x] **Implement canary text resolution** — If `replaceDefaultCanaries` is false, concatenate `DEFAULT_CANARY_TEXTS` with custom `canaryTexts`. If true, use only the custom texts. | Status: done
 
-- [ ] **Implement `monitor.snapshot(embeddings, options?)` method** — Delegate to the `createSnapshot` function from `snapshot.ts`. Pass through the monitor's modelId and the caller's options. Return a `Snapshot`. | Status: not_done
+- [x] **Implement `monitor.snapshot(embeddings, options?)` method** — Delegate to the `createSnapshot` function from `snapshot.ts`. Pass through the monitor's modelId and the caller's options. Return a `Snapshot`. | Status: done
 
-- [ ] **Implement `monitor.compare(snapshotA, snapshotB)` method** — Check dimensionality compatibility (throw `DriftError('INCOMPATIBLE_DIMENSIONS')` if different). Check model IDs for mismatch. Run each enabled drift detection method. Compute composite score and severity. Evaluate alert thresholds. Dispatch `onDrift` callback if alert fires. Record timing (`durationMs`). Return a `DriftReport` with all fields populated. | Status: not_done
+- [x] **Implement `monitor.compare(snapshotA, snapshotB)` method** — Check dimensionality compatibility (throw `DriftError('INCOMPATIBLE_DIMENSIONS')` if different). Check model IDs for mismatch. Run each enabled drift detection method. Compute composite score and severity. Evaluate alert thresholds. Dispatch `onDrift` callback if alert fires. Record timing (`durationMs`). Return a `DriftReport` with all fields populated. | Status: done
 
-- [ ] **Implement model ID mismatch detection in `compare()`** — If `snapshotA.modelId !== snapshotB.modelId`, set `modelChanged: true` and severity to `critical`. Still compute all other scores for informational purposes. | Status: not_done
+- [x] **Implement model ID mismatch detection in `compare()`** — If `snapshotA.modelId !== snapshotB.modelId`, set `modelChanged: true` and severity to `critical`. Still compute all other scores for informational purposes. | Status: done
 
-- [ ] **Implement `monitor.setBaseline(snapshot)` method** — Store the snapshot in the monitor's internal state for use by `check()`. | Status: not_done
+- [x] **Implement `monitor.setBaseline(snapshot)` method** — Store the snapshot in the monitor's internal state for use by `check()`. | Status: done
 
-- [ ] **Implement `monitor.getBaseline()` method** — Return the currently stored baseline snapshot, or `undefined` if none is set. | Status: not_done
+- [x] **Implement `monitor.getBaseline()` method** — Return the currently stored baseline snapshot, or `undefined` if none is set. | Status: done
 
-- [ ] **Implement `monitor.check(embeddings, options?)` method** — Throw `DriftError('NO_BASELINE')` if no baseline is set. Create a new snapshot from the provided embeddings. Call `compare(baseline, newSnapshot)` and return the `DriftReport`. | Status: not_done
+- [x] **Implement `monitor.check(embeddings, options?)` method** — Throw `DriftError('NO_BASELINE')` if no baseline is set. Create a new snapshot from the provided embeddings. Call `compare(baseline, newSnapshot)` and return the `DriftReport`. | Status: done
 
-- [ ] **Implement `monitor.checkCanaries(embedFn)` method** — If no canary reference embeddings exist, embed all canary texts via `embedFn`, store as reference, and return a `CanaryReport` with `isInitialBaseline: true` and `driftScore: 0`. If reference exists, re-embed canary texts, compute per-canary similarities, mean/min similarity, drift score, and `modelChanged` flag. Wrap `embedFn` call in try/catch and throw `DriftError('EMBED_FN_FAILED')` on failure. Evaluate alert thresholds and dispatch `onDrift` if appropriate. Return `CanaryReport`. | Status: not_done
+- [x] **Implement `monitor.checkCanaries(embedFn)` method** — If no canary reference embeddings exist, embed all canary texts via `embedFn`, store as reference, and return a `CanaryReport` with `isInitialBaseline: true` and `driftScore: 0`. If reference exists, re-embed canary texts, compute per-canary similarities, mean/min similarity, drift score, and `modelChanged` flag. Wrap `embedFn` call in try/catch and throw `DriftError('EMBED_FN_FAILED')` on failure. Evaluate alert thresholds and dispatch `onDrift` if appropriate. Return `CanaryReport`. | Status: done
 
-- [ ] **Implement `monitor.setCanaryBaseline(canaryEmbeddings)` method** — Explicitly set the canary reference embeddings without calling `checkCanaries`. Validates that the array is non-empty. | Status: not_done
+- [x] **Implement `monitor.setCanaryBaseline(canaryEmbeddings)` method** — Explicitly set the canary reference embeddings without calling `checkCanaries`. Validates that the array is non-empty. | Status: done
 
-- [ ] **Implement `monitor.getCanaryTexts()` method** — Return the resolved canary text array (built-in + custom, or custom-only if replaceDefaultCanaries is true). | Status: not_done
+- [x] **Implement `monitor.getCanaryTexts()` method** — Return the resolved canary text array (built-in + custom, or custom-only if replaceDefaultCanaries is true). | Status: done
 
-- [ ] **Implement `monitor.alert(report)` method** — Delegate to the alert evaluation logic in `alert.ts`. Accept both `DriftReport` and `CanaryReport`. Return boolean. | Status: not_done
+- [x] **Implement `monitor.alert(report)` method** — Delegate to the alert evaluation logic in `alert.ts`. Accept both `DriftReport` and `CanaryReport`. Return boolean. | Status: done
 
-- [ ] **Implement `DriftReport` summary generation** — Generate a human-readable `summary` string for each `DriftReport` that describes the drift findings, severity, and recommended action. | Status: not_done
+- [x] **Implement `DriftReport` summary generation** — Generate a human-readable `summary` string for each `DriftReport` that describes the drift findings, severity, and recommended action. | Status: done
 
-- [ ] **Write integration tests for DriftMonitor (`src/__tests__/monitor.test.ts`)** — Test the full workflow: createMonitor, snapshot, setBaseline, check, compare, checkCanaries, setCanaryBaseline, alert, getBaseline, getCanaryTexts. Test error cases: check without baseline, incompatible dimensions. Test onDrift callback invocation. Test method disabling. Test custom weights. | Status: not_done
+- [x] **Write integration tests for DriftMonitor (`src/__tests__/monitor.test.ts`)** — Test the full workflow: createMonitor, snapshot, setBaseline, check, compare, checkCanaries, setCanaryBaseline, alert, getBaseline, getCanaryTexts. Test error cases: check without baseline, incompatible dimensions. Test onDrift callback invocation. Test method disabling. Test custom weights. | Status: done
 
 ---
 
 ## Phase 9: Serialization (`src/serialization.ts`)
 
-- [ ] **Implement `saveSnapshot(snapshot, filePath)` function** — Write a snapshot as pretty-printed JSON to the specified file path using `node:fs` synchronous API (`writeFileSync`). | Status: not_done
+- [x] **Implement `saveSnapshot(snapshot, filePath)` function** — Write a snapshot as pretty-printed JSON to the specified file path using `node:fs` synchronous API (`writeFileSync`). | Status: done
 
-- [ ] **Implement `loadSnapshot(filePath)` function** — Read a JSON file from the specified path, parse it, and validate the snapshot schema. Return a `Snapshot` object. Throw `DriftError('INVALID_SNAPSHOT')` if the file is not valid JSON or is missing required fields. | Status: not_done
+- [x] **Implement `loadSnapshot(filePath)` function** — Read a JSON file from the specified path, parse it, and validate the snapshot schema. Return a `Snapshot` object. Throw `DriftError('INVALID_SNAPSHOT')` if the file is not valid JSON or is missing required fields. | Status: done
 
-- [ ] **Implement snapshot schema validation** — Validate all required fields: `id` (string), `createdAt` (string), `modelId` (string), `dimensionality` (number), `sampleCount` (number), `centroid` (number array), `variance` (number array), `meanPairwiseSimilarity` (number), `stdPairwiseSimilarity` (number), `similarityHistogram` (number array of length 20), `sampleVectors` (array of number arrays). Validate that `centroid` and `variance` lengths match `dimensionality`. | Status: not_done
+- [x] **Implement snapshot schema validation** — Validate all required fields: `id` (string), `createdAt` (string), `modelId` (string), `dimensionality` (number), `sampleCount` (number), `centroid` (number array), `variance` (number array), `meanPairwiseSimilarity` (number), `stdPairwiseSimilarity` (number), `similarityHistogram` (number array of length 20), `sampleVectors` (array of number arrays). Validate that `centroid` and `variance` lengths match `dimensionality`. | Status: done
 
 - [ ] **Write unit tests for serialization (`src/__tests__/serialization.test.ts`)** — Test: saveSnapshot writes valid JSON; loadSnapshot reads back the same snapshot (deep equality round-trip); loadSnapshot throws INVALID_SNAPSHOT for malformed JSON; loadSnapshot throws INVALID_SNAPSHOT for JSON missing required fields (centroid, modelId, etc.); loadSnapshot throws INVALID_SNAPSHOT for JSON with wrong field types. | Status: not_done
 
@@ -238,19 +238,19 @@
 
 ## Phase 13: Edge Cases & Error Handling
 
-- [ ] **Handle edge case: all vectors are identical** — Snapshot creation should handle zero variance gracefully. Pairwise similarity should be 1.0 for all pairs. Cohen's d computation must not divide by zero (use epsilon in variance denominator). | Status: not_done
+- [x] **Handle edge case: all vectors are identical** — Snapshot creation should handle zero variance gracefully. Pairwise similarity should be 1.0 for all pairs. Cohen's d computation must not divide by zero (use epsilon in variance denominator). | Status: done
 
-- [ ] **Handle edge case: very small sample sizes** — When fewer vectors than `sampleSize` are provided, store all vectors as sampleVectors. When only 2 vectors are provided, pairwise sampling should still work correctly. | Status: not_done
+- [x] **Handle edge case: very small sample sizes** — When fewer vectors than `sampleSize` are provided, store all vectors as sampleVectors. When only 2 vectors are provided, pairwise sampling should still work correctly. | Status: done
 
-- [ ] **Handle edge case: canary embeddings missing from one snapshot** — When comparing two snapshots where only one has `canaryEmbeddings`, skip the canary method and renormalize composite weights. Do not throw an error. | Status: not_done
+- [x] **Handle edge case: canary embeddings missing from one snapshot** — When comparing two snapshots where only one has `canaryEmbeddings`, skip the canary method and renormalize composite weights. Do not throw an error. | Status: done
 
-- [ ] **Handle edge case: all method scores are 0** — Composite score should be 0, severity should be `none`. No alert should fire. | Status: not_done
+- [x] **Handle edge case: all method scores are 0** — Composite score should be 0, severity should be `none`. No alert should fire. | Status: done
 
-- [ ] **Handle `embedFn` failure in `checkCanaries`** — If the embed function throws, catch the error and rethrow as `DriftError('EMBED_FN_FAILED')` with the original error as the `cause`. | Status: not_done
+- [x] **Handle `embedFn` failure in `checkCanaries`** — If the embed function throws, catch the error and rethrow as `DriftError('EMBED_FN_FAILED')` with the original error as the `cause`. | Status: done
 
-- [ ] **Handle very high dimensional embeddings (3072+)** — Ensure all computations work correctly with large dimensions. No hardcoded dimension limits. | Status: not_done
+- [x] **Handle very high dimensional embeddings (3072+)** — Ensure all computations work correctly with large dimensions. No hardcoded dimension limits. | Status: done
 
-- [ ] **Handle NaN and Infinity in computations** — Add guards against NaN/Infinity in cosine similarity (zero-norm vectors), variance ratios (zero variance), and MMD bandwidth (zero distances). Replace with safe defaults. | Status: not_done
+- [x] **Handle NaN and Infinity in computations** — Add guards against NaN/Infinity in cosine similarity (zero-norm vectors), variance ratios (zero variance), and MMD bandwidth (zero distances). Replace with safe defaults. | Status: done
 
 ---
 
