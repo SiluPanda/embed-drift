@@ -3,6 +3,7 @@
 Detect embedding model changes and distribution shifts before they silently degrade your retrieval quality.
 
 [![npm version](https://img.shields.io/npm/v/embed-drift.svg)](https://www.npmjs.com/package/embed-drift)
+[![npm downloads](https://img.shields.io/npm/dt/embed-drift.svg)](https://www.npmjs.com/package/embed-drift)
 [![license](https://img.shields.io/npm/l/embed-drift.svg)](https://github.com/SiluPanda/embed-drift/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/embed-drift.svg)](https://nodejs.org)
 
