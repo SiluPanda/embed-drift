@@ -42,14 +42,18 @@ export function computeComposite(
   // Filter to only computed methods
   const active = entries.filter((e) => methods[e.key].computed);
 
+  const zeroWeights: MethodWeights = {
+    canary: 0, centroid: 0, pairwise: 0, dimensionWise: 0, mmd: 0,
+  };
+
   if (active.length === 0) {
-    return {
-      score: 0,
-      effectiveWeights: weights,
-    };
+    return { score: 0, effectiveWeights: zeroWeights };
   }
 
   const totalWeight = active.reduce((sum, e) => sum + e.weight, 0);
+  if (totalWeight === 0) {
+    return { score: 0, effectiveWeights: zeroWeights };
+  }
   let compositeScore = 0;
   for (const e of active) {
     compositeScore += (e.weight / totalWeight) * e.score;

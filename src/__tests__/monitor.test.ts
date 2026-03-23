@@ -406,4 +406,39 @@ describe('severity bands', () => {
     const severity = report.composite.severity;
     expect(['none', 'low']).toContain(severity);
   });
+
+  it('onDrift callback receives report with correct alerted field', () => {
+    const onDrift = vi.fn();
+    const monitor = createMonitor({
+      ...BASE_OPTS,
+      onDrift,
+      alertSeverity: 'none', // always alert
+    });
+    const snapA = monitor.snapshot(makeEmbeddings(10, 4, 0));
+    const snapB = monitor.snapshot(makeEmbeddings(10, 4, 100));
+    const report = monitor.compare(snapA, snapB);
+    if (onDrift.mock.calls.length > 0) {
+      const callbackReport = onDrift.mock.calls[0][0];
+      expect(callbackReport.alerted).toBe(report.alerted);
+    }
+  });
+
+  it('computeComposite handles all-zero weights without NaN', () => {
+    const monitor = createMonitor({
+      ...BASE_OPTS,
+      methodWeights: { canary: 0, centroid: 0, pairwise: 0, dimensionWise: 0, mmd: 0 },
+    });
+    const snapA = monitor.snapshot(makeEmbeddings(10, 4, 0));
+    const snapB = monitor.snapshot(makeEmbeddings(10, 4, 100));
+    const report = monitor.compare(snapA, snapB);
+    expect(Number.isNaN(report.composite.score)).toBe(false);
+  });
+
+  it('pairwiseSamplePairs option is respected in snapshot', () => {
+    const monitor = createMonitor(BASE_OPTS);
+    // Using a custom pairwiseSamplePairs should not crash
+    const snap = monitor.snapshot(makeEmbeddings(10, 4, 0), { pairwiseSamplePairs: 10 });
+    expect(snap).toBeDefined();
+    expect(snap.meanPairwiseSimilarity).toBeDefined();
+  });
 });

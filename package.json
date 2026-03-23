@@ -1,12 +1,9 @@
 {
   "name": "embed-drift",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Monitor embedding distribution shifts over time",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": {
-    "embed-drift": "dist/cli.js"
-  },
   "files": [
     "dist"
   ],
