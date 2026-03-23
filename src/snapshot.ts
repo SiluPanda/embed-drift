@@ -35,9 +35,10 @@ export function createSnapshot(
   const variance = elementWiseVariance(embeddings, centroid);
 
   // Pairwise cosine similarity estimation
-  const maxPairs = options.sampleSize !== undefined
+  const defaultMaxPairs = options.sampleSize !== undefined
     ? Math.min(options.sampleSize * 10, 500)
     : 500;
+  const maxPairs = options.pairwiseSamplePairs ?? defaultMaxPairs;
   const n = embeddings.length;
   const totalPossiblePairs = (n * (n - 1)) / 2;
   const pairCount = Math.min(maxPairs, totalPossiblePairs);

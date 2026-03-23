@@ -135,8 +135,9 @@ export function createMonitor(options: DriftMonitorOptions): DriftMonitor {
       durationMs,
     };
 
-    const alerted = dispatchAlert(report, onDrift, alertSeverity, thresholds);
-    report.alerted = alerted;
+    // Set alerted before dispatching so the callback receives the correct value
+    report.alerted = evaluateAlert(report, alertSeverity, thresholds);
+    dispatchAlert(report, onDrift, alertSeverity, thresholds);
 
     return report;
   }
@@ -214,8 +215,8 @@ export function createMonitor(options: DriftMonitorOptions): DriftMonitor {
       durationMs,
     };
 
-    const alerted = dispatchAlert(canaryReport, onDrift, alertSeverity, thresholds);
-    canaryReport.alerted = alerted;
+    canaryReport.alerted = evaluateAlert(canaryReport, alertSeverity, thresholds);
+    dispatchAlert(canaryReport, onDrift, alertSeverity, thresholds);
 
     return canaryReport;
   }

@@ -11,10 +11,10 @@ export function computeDimensionWiseDrift(snapshotA: Snapshot, snapshotB: Snapsh
   for (let i = 0; i < d; i++) {
     const meanDiff = snapshotA.centroid[i] - snapshotB.centroid[i];
     const varPooled = (snapshotA.variance[i] + snapshotB.variance[i]) / 2 + EPSILON;
-    cohensTotal += (meanDiff * meanDiff) / varPooled;
+    cohensTotal += Math.abs(meanDiff) / Math.sqrt(varPooled);
   }
   const meanCohensD = cohensTotal / d;
-  // Normalise: full Cohen's d of ~2.0 maps to score 1.0
+  // Normalise: Cohen's d of ~2.0 maps to score 1.0
   const cohensScore = Math.min(1, meanCohensD / 2.0);
 
   // KS-like statistic per dimension over sample vectors

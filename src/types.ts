@@ -115,6 +115,9 @@ export interface SnapshotOptions {
   /** Embed function used to compute canary embeddings when includeCanaries is true. */
   embedFn?: EmbedFn;
 
+  /** Maximum number of pairwise similarity pairs to sample. Default: 500. */
+  pairwiseSamplePairs?: number;
+
   /** Caller-provided metadata to attach to the snapshot. Default: {}. */
   metadata?: Record<string, unknown>;
 }
