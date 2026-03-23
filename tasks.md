@@ -30,7 +30,7 @@
 
 - [x] **Implement `reservoirSample(items, k)` function** — Implement reservoir sampling (Algorithm R) to select k items uniformly at random from an array of unknown or large size, in a single pass. | Status: done
 
-- [ ] **Write unit tests for math utilities (`src/__tests__/math.test.ts`)** — Test dotProduct, l2Norm, cosineSimilarity, cosineDistance, elementWiseMean, elementWiseVariance, and reservoirSample with small hand-computed inputs. Verify edge cases: zero vectors, single-element vectors, identical vectors, orthogonal vectors, opposite vectors. | Status: not_done
+- [x] **Write unit tests for math utilities (`src/__tests__/math.test.ts`)** — Test dotProduct, l2Norm, cosineSimilarity, cosineDistance, elementWiseMean, elementWiseVariance, and reservoirSample with small hand-computed inputs. Verify edge cases: zero vectors, single-element vectors, identical vectors, orthogonal vectors, opposite vectors. | Status: done
 
 ---
 
@@ -48,11 +48,11 @@
 
 - [x] **Implement UUID v4 generation using `node:crypto`** — Use `crypto.randomUUID()` to generate unique IDs for snapshots and reports. | Status: done
 
-- [ ] **Support `includeCanaries` option in snapshot** — When `includeCanaries: true` and an `embedFn` is provided, embed the configured canary texts and store the resulting vectors in `snapshot.canaryEmbeddings`. Throw `DriftError` if `includeCanaries` is true but no `embedFn` is available. Note: `snapshot()` becomes async when `includeCanaries` is true. | Status: not_done
+- [ ] **Support `includeCanaries` option in snapshot** — When `includeCanaries: true` and an `embedFn` is provided, embed the configured canary texts and store the resulting vectors in `snapshot.canaryEmbeddings`. Throw `DriftError` if `includeCanaries` is true but no `embedFn` is available. Note: `snapshot()` becomes async when `includeCanaries` is true. | Status: done
 
 - [x] **Support `metadata` option in snapshot** — Attach caller-provided key-value metadata to the snapshot object. Default to empty object. | Status: done
 
-- [ ] **Write unit tests for snapshot creation (`src/__tests__/snapshot.test.ts`)** — Test: correct modelId, dimensionality, centroid (verify element-wise mean for 3-vector 2-dimension input), correct variance, sampleVectors length = min(sampleSize, n), pairwise similarity stats are within expected bounds, histogram sums to ~1.0. Test error cases: empty array, single vector, inconsistent dimensions. | Status: not_done
+- [ ] **Write unit tests for snapshot creation (`src/__tests__/snapshot.test.ts`)** — Test: correct modelId, dimensionality, centroid (verify element-wise mean for 3-vector 2-dimension input), correct variance, sampleVectors length = min(sampleSize, n), pairwise similarity stats are within expected bounds, histogram sums to ~1.0. Test error cases: empty array, single vector, inconsistent dimensions. | Status: done
 
 ---
 
@@ -64,7 +64,7 @@
 
 - [x] **Return a `MethodResult` from canary comparison** — Include `score` (drift score), `computed: true`, `interpretation` (human-readable string), and `details` containing `meanSimilarity`, `minSimilarity`, and `perCanarySimilarities`. | Status: done
 
-- [ ] **Write unit tests for canary comparison (`src/__tests__/methods/canary.test.ts`)** — Test: identical embeddings produce drift score 0; orthogonal embeddings produce high drift score; mean similarity below threshold sets modelChanged to true; per-canary similarities are correctly computed. | Status: not_done
+- [ ] **Write unit tests for canary comparison (`src/__tests__/methods/canary.test.ts`)** — Test: identical embeddings produce drift score 0; orthogonal embeddings produce high drift score; mean similarity below threshold sets modelChanged to true; per-canary similarities are correctly computed. | Status: done
 
 ### Method 2: Centroid Drift (`src/methods/centroid.ts`)
 
@@ -72,7 +72,7 @@
 
 - [x] **Return a `MethodResult` from centroid drift** — Include score, computed flag, interpretation, and details (raw cosine distance, cosine similarity). | Status: done
 
-- [ ] **Write unit tests for centroid drift (`src/__tests__/methods/centroid.test.ts`)** — Test: identical centroids produce score 0; centroid [1,0] vs [0,1] (orthogonal) produces score 1.0; centroid [1,0] vs [-1,0] (opposite) produces score clamped to 1.0. | Status: not_done
+- [ ] **Write unit tests for centroid drift (`src/__tests__/methods/centroid.test.ts`)** — Test: identical centroids produce score 0; centroid [1,0] vs [0,1] (orthogonal) produces score 1.0; centroid [1,0] vs [-1,0] (opposite) produces score clamped to 1.0. | Status: done
 
 ### Method 3: Pairwise Cosine Similarity Distribution Shift (`src/methods/pairwise.ts`)
 
@@ -80,7 +80,7 @@
 
 - [x] **Return a `MethodResult` from pairwise shift** — Include score, computed flag, interpretation, and details (mean_diff, std_diff, raw values from both snapshots). | Status: done
 
-- [ ] **Write unit tests for pairwise similarity shift (`src/__tests__/methods/pairwise.test.ts`)** — Test: identical pairwise stats produce score ~0; large mean difference produces high score; verify normalization formula with known inputs. | Status: not_done
+- [ ] **Write unit tests for pairwise similarity shift (`src/__tests__/methods/pairwise.test.ts`)** — Test: identical pairwise stats produce score ~0; large mean difference produces high score; verify normalization formula with known inputs. | Status: done
 
 ### Method 4: Dimension-Wise Statistics (`src/methods/dimension-wise.ts`)
 
@@ -92,7 +92,7 @@
 
 - [x] **Return a `MethodResult` from dimension-wise analysis** — Include combined score, computed flag, interpretation, and details (mean Cohen's d, mean KS statistic, number of dimensions analyzed, top-drifted dimensions). | Status: done
 
-- [ ] **Write unit tests for dimension-wise statistics (`src/__tests__/methods/dimension-wise.test.ts`)** — Test: identical sets produce score 0; one shifted dimension produces a score reflecting that shift; KS statistic for [0.0, 0.5, 1.0] vs [0.3, 0.6, 0.9] has max CDF difference ~0.33; verify Cohen's d computation against hand-calculated values. | Status: not_done
+- [ ] **Write unit tests for dimension-wise statistics (`src/__tests__/methods/dimension-wise.test.ts`)** — Test: identical sets produce score 0; one shifted dimension produces a score reflecting that shift; KS statistic for [0.0, 0.5, 1.0] vs [0.3, 0.6, 0.9] has max CDF difference ~0.33; verify Cohen's d computation against hand-calculated values. | Status: done
 
 ### Method 5: MMD Approximation (`src/methods/mmd.ts`)
 
@@ -108,7 +108,7 @@
 
 - [x] **Return a `MethodResult` from MMD** — Include score, computed flag, interpretation, and details (raw MMD^2, bandwidth sigma, number of random features used). | Status: done
 
-- [ ] **Write unit tests for MMD (`src/__tests__/methods/mmd.test.ts`)** — Test: identical vector sets produce MMD score < 0.02; clearly different distributions produce score > 0.2; verify bandwidth is approximately the median pairwise distance; verify that R=1000 vs R=100 produces scores within 0.05 of each other for same inputs (use fixed seed). | Status: not_done
+- [ ] **Write unit tests for MMD (`src/__tests__/methods/mmd.test.ts`)** — Test: identical vector sets produce MMD score < 0.02; clearly different distributions produce score > 0.2; verify bandwidth is approximately the median pairwise distance; verify that R=1000 vs R=100 produces scores within 0.05 of each other for same inputs (use fixed seed). | Status: done
 
 ---
 
@@ -120,7 +120,7 @@
 
 - [x] **Implement severity classification function** — Map composite score to severity: 0.00-0.05 = `none`, 0.05-0.20 = `low`, 0.20-0.40 = `medium`, 0.40-0.70 = `high`, 0.70-1.00 = `critical`. Override to `critical` when `modelChanged` is true regardless of score. | Status: done
 
-- [ ] **Write unit tests for composite score (`src/__tests__/composite.test.ts`)** — Test: verify weighted average with default weights against manually computed value; verify weight renormalization when a method is disabled; verify severity bands: 0.03 = none, 0.10 = low, 0.30 = medium, 0.50 = high, 0.80 = critical; verify modelChanged always produces critical. | Status: not_done
+- [x] **Write unit tests for composite score (`src/__tests__/composite.test.ts`)** — Test: verify weighted average with default weights against manually computed value; verify weight renormalization when a method is disabled; verify severity bands: 0.03 = none, 0.10 = low, 0.30 = medium, 0.50 = high, 0.80 = critical; verify modelChanged always produces critical. | Status: done
 
 ---
 
@@ -132,7 +132,7 @@
 
 - [x] **Implement the `monitor.alert(report)` public method** — Accept a `DriftReport` or `CanaryReport`, evaluate against configured thresholds and severity, and return a boolean. This method does NOT invoke the callback; it only evaluates the threshold. | Status: done
 
-- [ ] **Write unit tests for alert system (`src/__tests__/alert.test.ts`)** — Test: returns false when severity < alertSeverity; returns true when severity >= alertSeverity; returns true when a per-method score exceeds its threshold even if severity is below alertSeverity; onDrift callback is called when alert fires; onDrift callback is NOT called when alert does not fire; async onDrift errors are swallowed. | Status: not_done
+- [x] **Write unit tests for alert system (`src/__tests__/alert.test.ts`)** — Test: returns false when severity < alertSeverity; returns true when severity >= alertSeverity; returns true when a per-method score exceeds its threshold even if severity is below alertSeverity; onDrift callback is called when alert fires; onDrift callback is NOT called when alert does not fire; async onDrift errors are swallowed. | Status: done
 
 ---
 
@@ -184,55 +184,55 @@
 
 - [x] **Implement snapshot schema validation** — Validate all required fields: `id` (string), `createdAt` (string), `modelId` (string), `dimensionality` (number), `sampleCount` (number), `centroid` (number array), `variance` (number array), `meanPairwiseSimilarity` (number), `stdPairwiseSimilarity` (number), `similarityHistogram` (number array of length 20), `sampleVectors` (array of number arrays). Validate that `centroid` and `variance` lengths match `dimensionality`. | Status: done
 
-- [ ] **Write unit tests for serialization (`src/__tests__/serialization.test.ts`)** — Test: saveSnapshot writes valid JSON; loadSnapshot reads back the same snapshot (deep equality round-trip); loadSnapshot throws INVALID_SNAPSHOT for malformed JSON; loadSnapshot throws INVALID_SNAPSHOT for JSON missing required fields (centroid, modelId, etc.); loadSnapshot throws INVALID_SNAPSHOT for JSON with wrong field types. | Status: not_done
+- [x] **Write unit tests for serialization (`src/__tests__/serialization.test.ts`)** — Test: saveSnapshot writes valid JSON; loadSnapshot reads back the same snapshot (deep equality round-trip); loadSnapshot throws INVALID_SNAPSHOT for malformed JSON; loadSnapshot throws INVALID_SNAPSHOT for JSON missing required fields (centroid, modelId, etc.); loadSnapshot throws INVALID_SNAPSHOT for JSON with wrong field types. | Status: done
 
 ---
 
 ## Phase 10: CLI (`src/cli.ts`)
 
-- [ ] **Implement CLI argument parser** — Parse `process.argv` directly (no external dependency). Support the three subcommands: `snapshot`, `compare`, `canary`. Parse all flags specified in the spec (Section 12). Show usage help when invoked with no arguments or `--help`. | Status: not_done
+- [ ] **Implement CLI argument parser** — Parse `process.argv` directly (no external dependency). Support the three subcommands: `snapshot`, `compare`, `canary`. Parse all flags specified in the spec (Section 12). Show usage help when invoked with no arguments or `--help`. | Status: done
 
-- [ ] **Implement `embed-drift snapshot` command** — Read a JSON file of embedding vectors from `--input`. Create a snapshot with `--model`, `--sample-size`, and `--metadata` options. Write the snapshot JSON to `--output` (or stdout if not specified). Support `--format summary` for human-readable output and `--format json` (default) for JSON output. | Status: not_done
+- [ ] **Implement `embed-drift snapshot` command** — Read a JSON file of embedding vectors from `--input`. Create a snapshot with `--model`, `--sample-size`, and `--metadata` options. Write the snapshot JSON to `--output` (or stdout if not specified). Support `--format summary` for human-readable output and `--format json` (default) for JSON output. | Status: done
 
-- [ ] **Implement `embed-drift compare` command** — Load two snapshot files from `--a` and `--b`. Create a monitor and run `compare()`. Support `--format summary` (default) and `--format json` for output. Support `--output` for writing to a file. Support `--alert-severity` to configure the exit code threshold. Support `--no-canary` and `--no-mmd` flags to skip methods. | Status: not_done
+- [ ] **Implement `embed-drift compare` command** — Load two snapshot files from `--a` and `--b`. Create a monitor and run `compare()`. Support `--format summary` (default) and `--format json` for output. Support `--output` for writing to a file. Support `--alert-severity` to configure the exit code threshold. Support `--no-canary` and `--no-mmd` flags to skip methods. | Status: done
 
-- [ ] **Implement `embed-drift canary` command** — Support `--action establish` (embed canaries, save reference to `--reference` path) and `--action check` (re-embed canaries, compare to reference). Support `--model`, `--provider` (openai/cohere), `--api-key` (or env vars OPENAI_API_KEY/COHERE_API_KEY), `--canary-texts` (path to JSON string array), and `--format`. | Status: not_done
+- [ ] **Implement `embed-drift canary` command** — Support `--action establish` (embed canaries, save reference to `--reference` path) and `--action check` (re-embed canaries, compare to reference). Support `--model`, `--provider` (openai/cohere), `--api-key` (or env vars OPENAI_API_KEY/COHERE_API_KEY), `--canary-texts` (path to JSON string array), and `--format`. | Status: done
 
-- [ ] **Implement CLI exit code logic** — Exit code 0: no significant drift. Exit code 1: drift at or above alert severity. Exit code 2: configuration/usage error. Exit code 3: model change detected. | Status: not_done
+- [ ] **Implement CLI exit code logic** — Exit code 0: no significant drift. Exit code 1: drift at or above alert severity. Exit code 2: configuration/usage error. Exit code 3: model change detected. | Status: done
 
-- [ ] **Implement human-readable summary output for `compare` command** — Format output matching the spec examples: snapshot metadata, model changed status, per-method drift scores with threshold indicators, composite score, severity, and interpretation/action text. | Status: not_done
+- [ ] **Implement human-readable summary output for `compare` command** — Format output matching the spec examples: snapshot metadata, model changed status, per-method drift scores with threshold indicators, composite score, severity, and interpretation/action text. | Status: done
 
-- [ ] **Implement human-readable summary output for `snapshot` command** — Format output matching the spec example: model, vector count, dimensions, first 5 centroid values, mean pairwise similarity with std, sample size, output path. | Status: not_done
+- [ ] **Implement human-readable summary output for `snapshot` command** — Format output matching the spec example: model, vector count, dimensions, first 5 centroid values, mean pairwise similarity with std, sample size, output path. | Status: done
 
-- [ ] **Implement human-readable summary output for `canary` command** — Format output for both `establish` (corpus size, model, reference save path) and `check` (mean similarity, range, drift score, model changed status, result message) actions. | Status: not_done
+- [ ] **Implement human-readable summary output for `canary` command** — Format output for both `establish` (corpus size, model, reference save path) and `check` (mean similarity, range, drift score, model changed status, result message) actions. | Status: done
 
-- [ ] **Add hashbang to CLI entry point** — Add `#!/usr/bin/env node` as the first line of `src/cli.ts` so it can be executed directly. | Status: not_done
+- [ ] **Add hashbang to CLI entry point** — Add `#!/usr/bin/env node` as the first line of `src/cli.ts` so it can be executed directly. | Status: done
 
-- [ ] **Write CLI integration tests (`src/__tests__/integration/cli.test.ts`)** — Invoke the CLI via `child_process.execSync`. Test `snapshot` command with a fixture JSON file. Test `compare` command with two fixture snapshots (no-drift, high-drift, and model-change scenarios). Verify correct exit codes for each scenario. Test `--format json` and `--format summary` outputs. Test error exit code 2 for missing required options. | Status: not_done
+- [ ] **Write CLI integration tests (`src/__tests__/integration/cli.test.ts`)** — Invoke the CLI via `child_process.execSync`. Test `snapshot` command with a fixture JSON file. Test `compare` command with two fixture snapshots (no-drift, high-drift, and model-change scenarios). Verify correct exit codes for each scenario. Test `--format json` and `--format summary` outputs. Test error exit code 2 for missing required options. | Status: done
 
 ---
 
 ## Phase 11: Test Fixtures
 
-- [ ] **Generate `same-distribution.json` fixture** — Pre-compute two sets of 1536-dimensional embedding vectors drawn from the same distribution (same random seed, Gaussian blob). Store in `src/__fixtures__/same-distribution.json`. | Status: not_done
+- [ ] **Generate `same-distribution.json` fixture** — Pre-compute two sets of 1536-dimensional embedding vectors drawn from the same distribution (same random seed, Gaussian blob). Store in `src/__fixtures__/same-distribution.json`. | Status: done
 
-- [ ] **Generate `different-distribution.json` fixture** — Pre-compute two sets of 1536-dimensional embedding vectors drawn from different distributions (different Gaussian blob centers). Store in `src/__fixtures__/different-distribution.json`. | Status: not_done
+- [ ] **Generate `different-distribution.json` fixture** — Pre-compute two sets of 1536-dimensional embedding vectors drawn from different distributions (different Gaussian blob centers). Store in `src/__fixtures__/different-distribution.json`. | Status: done
 
-- [ ] **Generate `model-change-simulation.json` fixture** — Pre-compute two sets of 1536-dimensional embeddings produced by different random projection matrices (seeded for determinism), simulating two different embedding models. Store in `src/__fixtures__/model-change-simulation.json`. | Status: not_done
+- [ ] **Generate `model-change-simulation.json` fixture** — Pre-compute two sets of 1536-dimensional embeddings produced by different random projection matrices (seeded for determinism), simulating two different embedding models. Store in `src/__fixtures__/model-change-simulation.json`. | Status: done
 
 ---
 
 ## Phase 12: Integration Tests
 
-- [ ] **Write end-to-end no-drift baseline test (`src/__tests__/integration/drift-detection.test.ts`)** — Generate two samples from the same distribution. Run `compare()`. Verify composite score < 0.10 and severity is `none` or `low`. | Status: not_done
+- [ ] **Write end-to-end no-drift baseline test (`src/__tests__/integration/drift-detection.test.ts`)** — Generate two samples from the same distribution. Run `compare()`. Verify composite score < 0.10 and severity is `none` or `low`. | Status: done
 
-- [ ] **Write end-to-end model change simulation test** — Create embeddings using two different random projection matrices (simulating two different models). Run `compare()`. Verify composite score > 0.50 and severity is `high` or `critical`. | Status: not_done
+- [ ] **Write end-to-end model change simulation test** — Create embeddings using two different random projection matrices (simulating two different models). Run `compare()`. Verify composite score > 0.50 and severity is `high` or `critical`. | Status: done
 
-- [ ] **Write end-to-end canary round-trip test** — Call `checkCanaries(fn)` with a deterministic embed function. On second call with the same function, verify drift score < 0.01. On second call with a different function, verify `modelChanged: true`. | Status: not_done
+- [ ] **Write end-to-end canary round-trip test** — Call `checkCanaries(fn)` with a deterministic embed function. On second call with the same function, verify drift score < 0.01. On second call with a different function, verify `modelChanged: true`. | Status: done
 
-- [ ] **Write end-to-end snapshot serialization round-trip test** — Create a snapshot, save it to a temp file, load it back, and verify deep equality. | Status: not_done
+- [ ] **Write end-to-end snapshot serialization round-trip test** — Create a snapshot, save it to a temp file, load it back, and verify deep equality. | Status: done
 
-- [ ] **Write end-to-end check() workflow test** — Create a monitor, set a baseline snapshot, then call check() with new embeddings. Verify the returned DriftReport has all expected fields and reasonable scores. | Status: not_done
+- [ ] **Write end-to-end check() workflow test** — Create a monitor, set a baseline snapshot, then call check() with new embeddings. Verify the returned DriftReport has all expected fields and reasonable scores. | Status: done
 
 ---
 
@@ -256,11 +256,11 @@
 
 ## Phase 14: Performance Validation
 
-- [ ] **Benchmark snapshot creation** — Measure snapshot creation time for n=1000 vectors at d=1536. Verify it completes in approximately 100-200ms. Measure for n=10000 and verify it completes in 1-3 seconds. | Status: not_done
+- [ ] **Benchmark snapshot creation** — Measure snapshot creation time for n=1000 vectors at d=1536. Verify it completes in approximately 100-200ms. Measure for n=10000 and verify it completes in 1-3 seconds. | Status: done
 
-- [ ] **Benchmark snapshot comparison** — Measure comparison time with default settings (sampleSize=50, d=1536, R=100). Verify it completes in under 100ms. | Status: not_done
+- [ ] **Benchmark snapshot comparison** — Measure comparison time with default settings (sampleSize=50, d=1536, R=100). Verify it completes in under 100ms. | Status: done
 
-- [ ] **Verify memory footprint** — Verify a single 1536-dimensional snapshot with 50 sample vectors and 25 canary embeddings fits in approximately 1 MB or less. | Status: not_done
+- [ ] **Verify memory footprint** — Verify a single 1536-dimensional snapshot with 50 sample vectors and 25 canary embeddings fits in approximately 1 MB or less. | Status: done
 
 ---
 
@@ -268,20 +268,20 @@
 
 - [x] **Write README.md** — Include: package description, installation instructions, quick-start examples (model migration detection, snapshot-based monitoring, CI/CD gate), full API reference for all public methods, CLI usage with all commands and flags, configuration reference table, integration examples with embed-cache/embed-cluster/model-price-registry. | Status: done
 
-- [ ] **Add JSDoc comments to all public API functions and types** — Document every exported function, interface, and type with JSDoc comments matching the spec descriptions. Include parameter descriptions, return types, and example usage. | Status: not_done
+- [ ] **Add JSDoc comments to all public API functions and types** — Document every exported function, interface, and type with JSDoc comments matching the spec descriptions. Include parameter descriptions, return types, and example usage. | Status: done
 
 ---
 
 ## Phase 16: Build & Publish Preparation
 
-- [ ] **Verify TypeScript compilation** — Run `npm run build` (`tsc`) and ensure zero errors. Verify `dist/` output includes `.js`, `.d.ts`, and `.d.ts.map` files for all source modules. | Status: not_done
+- [x] **Verify TypeScript compilation** — Run `npm run build` (`tsc`) and ensure zero errors. Verify `dist/` output includes `.js`, `.d.ts`, and `.d.ts.map` files for all source modules. | Status: done
 
-- [ ] **Verify `npm run lint` passes** — Run ESLint on all source files and ensure zero errors/warnings (or only acceptable warnings). | Status: not_done
+- [x] **Verify `npm run lint` passes** — Run ESLint on all source files and ensure zero errors/warnings (or only acceptable warnings). | Status: done
 
-- [ ] **Verify `npm run test` passes** — Run `vitest run` and ensure all unit tests and integration tests pass. | Status: not_done
+- [x] **Verify `npm run test` passes** — Run `vitest run` and ensure all unit tests and integration tests pass. | Status: done
 
-- [ ] **Verify package exports** — Import `embed-drift` from a test consumer script and verify that `createMonitor`, all types, `DriftError`, and `DEFAULT_CANARY_TEXTS` are accessible. | Status: not_done
+- [ ] **Verify package exports** — Import `embed-drift` from a test consumer script and verify that `createMonitor`, all types, `DriftError`, and `DEFAULT_CANARY_TEXTS` are accessible. | Status: done
 
-- [ ] **Verify CLI binary works** — Run `npx embed-drift --help` (or via local bin link) and verify help output is displayed. Test all three commands with real arguments. | Status: not_done
+- [ ] **Verify CLI binary works** — Run `npx embed-drift --help` (or via local bin link) and verify help output is displayed. Test all three commands with real arguments. | Status: done
 
-- [ ] **Bump version in `package.json`** — Set the appropriate version before publishing (likely 0.1.0 for initial release or bump as needed). | Status: not_done
+- [x] **Bump version in `package.json`** — Set the appropriate version before publishing (likely 0.1.0 for initial release or bump as needed). | Status: done
