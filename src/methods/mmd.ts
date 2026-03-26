@@ -3,6 +3,26 @@ import { dotProduct, l2Norm } from '../math';
 
 const EPSILON = 1e-8;
 
+/** Mulberry32 seeded PRNG. Returns a function that produces values in [0, 1). */
+function mulberry32(seed: number): () => number {
+  return () => {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/** Derive a numeric seed from two snapshot IDs. */
+function seedFromIds(idA: string, idB: string): number {
+  let hash = 0;
+  const str = idA + ':' + idB;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+  }
+  return hash >>> 0;
+}
+
 /** Compute median pairwise L2 distance for bandwidth estimation. */
 function medianPairwiseDistance(vectors: number[][]): number {
   const distances: number[] = [];
@@ -48,19 +68,19 @@ export function computeMMDDrift(
   const omegas: number[][] = [];
   const biases: number[] = [];
 
-  // Simple deterministic-ish random (seeded by snapshot IDs for consistency)
-  // We use Math.random() — tests using identical embeddings should still work.
+  // Seeded PRNG for deterministic random Fourier features
+  const rng = mulberry32(seedFromIds(snapshotA.id, snapshotB.id));
   for (let r = 0; r < numFeatures; r++) {
     const omega: number[] = [];
     for (let i = 0; i < d; i++) {
       // Box-Muller transform for N(0, 1), then scale by sqrt(invSigmaSq)
-      const u1 = Math.random();
-      const u2 = Math.random();
+      const u1 = rng();
+      const u2 = rng();
       const z = Math.sqrt(-2 * Math.log(Math.max(u1, 1e-15))) * Math.cos(2 * Math.PI * u2);
       omega.push(z * Math.sqrt(invSigmaSq));
     }
     omegas.push(omega);
-    biases.push(Math.random() * 2 * Math.PI);
+    biases.push(rng() * 2 * Math.PI);
   }
 
   // Compute mean feature map for set A
